@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}FitBuddy — Your plan{% endblock %}
+{% block content %}
+<section class="result-head">
+  <p class="eyebrow">YOUR PERSONALIZED PLAN</p>
+  <h1>Hi, {{ user.username }} 👋</h1>
+  <div class="chips"><span>{{ user.goal|title }}</span><span>{{ user.intensity|title }} intensity</span><span>Age {{ user.age }}</span></div>
+  {% if message %}<div class="alert success">{{ message }}</div>{% endif %}
+  {% if mode == "demo" %}<div class="alert">Demo mode is active. Add GEMINI_API_KEY to use Gemini.</div>{% endif %}
+</section>
+<div class="result-grid">
+  <section class="card">
+    <div class="section-title"><h2>7-Day Workout Plan</h2><span>AI generated</span></div>
+    <pre class="plan">{{ workout_plan }}</pre>
+  </section>
+  <aside>
+    <section class="card tip"><div class="section-title"><h2>Nutrition / Recovery Tip</h2></div><p>{{ nutrition_tip }}</p></section>
+    <section class="card">
+      <div class="section-title"><h2>Refine your plan</h2></div>
+      <p class="muted">Tell FitBuddy what you want changed, such as more recovery or more flexibility.</p>
+      <form action="/submit-feedback" method="post">
+        <input type="hidden" name="user_id" value="{{ user.user_id }}">
+        <textarea name="feedback" required maxlength="1000" placeholder="Example: Add more flexibility work and keep one extra recovery day."></textarea>
+        <button class="btn" type="submit">Update Plan</button>
+      </form>
+    </section>
+  </aside>
+</div>
+<a class="back-link" href="/">← Create another plan</a>
+{% endblock %}

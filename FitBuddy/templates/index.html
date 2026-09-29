@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}FitBuddy — Create your plan{% endblock %}
+{% block content %}
+<section class="hero">
+  <div>
+    <p class="eyebrow">AI FITNESS PLANNER</p>
+    <h1>Your weekly wellness plan, built around you.</h1>
+    <p class="hero-copy">Enter a few details and FitBuddy creates a structured 7-day plan plus a practical nutrition or recovery tip.</p>
+  </div>
+  <div class="card form-card">
+    {% if error %}<div class="alert error">{{ error }}</div>{% endif %}
+    <form action="/generate-workout" method="post" id="plan-form">
+      <div class="grid two">
+        <label>Name<input name="username" required minlength="2" value="{{ form.username if form else '' }}" placeholder="Your name"></label>
+        <label>User ID<input name="user_id" required minlength="2" value="{{ form.user_id if form else '' }}" placeholder="e.g. user001"></label>
+        <label>Age<input name="age" type="number" min="13" max="100" required value="{{ form.age if form else '' }}"></label>
+        <label>Weight (kg)<input name="weight" type="number" step="0.1" min="20" max="300" required value="{{ form.weight if form else '' }}"></label>
+        <label>Fitness goal<select name="goal" required>
+          <option value="general wellness">General wellness</option><option value="weight loss">Weight loss</option>
+          <option value="muscle gain">Muscle gain</option><option value="flexibility">Flexibility</option>
+        </select></label>
+        <label>Intensity<select name="intensity" required>
+          <option value="low">Low</option><option value="medium" selected>Medium</option><option value="high">High</option>
+        </select></label>
+      </div>
+      <div class="notice">For users under 18, FitBuddy focuses on general wellness and does not provide weight-loss or body-composition coaching.</div>
+      <button class="btn" type="submit">Generate My Plan</button>
+    </form>
+  </div>
+</section>
+{% endblock %}

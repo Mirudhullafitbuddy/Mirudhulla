@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}FitBuddy — Admin{% endblock %}
+{% block content %}
+<section class="result-head"><p class="eyebrow">ADMIN / COACH VIEW</p><h1>All users</h1><p class="muted">Local demo dashboard. Add real authentication before public deployment.</p></section>
+<div class="admin-list">
+{% for user in users %}
+  {% set plan = plans.get(user.user_id) %}
+  <article class="card admin-card">
+    <div class="user-summary"><h2>{{ user.username }}</h2><p>ID: {{ user.user_id }} • Age: {{ user.age }} • Weight: {{ user.weight }} kg</p><p>{{ user.goal|title }} • {{ user.intensity|title }} intensity</p></div>
+    {% if plan %}
+      <details><summary>View original plan</summary><pre class="plan compact">{{ plan.original_plan }}</pre></details>
+      {% if plan.updated_plan %}<details open><summary>View updated plan</summary><pre class="plan compact">{{ plan.updated_plan }}</pre></details>{% endif %}
+    {% endif %}
+  </article>
+{% else %}
+  <div class="card"><p>No users yet.</p></div>
+{% endfor %}
+</div>
+{% endblock %}
